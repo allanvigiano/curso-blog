@@ -3,20 +3,27 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+        <div class="col-md-10 col-md-offset-1">
+            <panel-component color="default" title="Título">
+                Conteúdo
+                <div class="row">
+                    <div class="col-md-4">
+                        <panel-component color="blue" title="Título 1">
+                            Conteúdo 
+                        </panel-component>
+                    </div>
+                    <div class="col-md-4">
+                        <panel-component color="warning" title="Título 2">
+                            Conteúdo 
+                        </panel-component>
+                    </div>
+                    <div class="col-md-4">
+                        <panel-component color="orange" title="Título 3">
+                            Conteúdo 
+                        </panel-component>
+                    </div>
                 </div>
-            </div>
+            </panel-component> 
         </div>
     </div>
 </div>
