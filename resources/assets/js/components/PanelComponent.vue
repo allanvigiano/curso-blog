@@ -1,0 +1,41 @@
+<template>
+
+    <div :class="defineColor">
+        <div class="panel-heading"> {{ title }}</div>
+
+        <div class="panel-body">
+            <slot></slot>
+        </div>
+    </div>
+
+</template>
+
+<script>
+    export default {
+        props: ['title', 'color'],
+        computed: {
+            defineColor: function () {
+                return 'panel '  + (this.color || 'primary');
+            }
+        }
+    }
+</script>
+
+<style scoped>
+.blue {
+    border-color: #0d4a96;
+}
+.blue > .panel-heading {
+    color: #f7f7f7;
+    background-color: #0d4a96;
+    border-color: #0d4a96;
+}
+.orange {
+    border-color: #e84e0d;
+}
+.orange > .panel-heading {
+    color: #f7f7f7;
+    background-color: #e84e0d;
+    border-color: #e84e0d;
+}
+</style>
