@@ -1,30 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <panel-component color="default" title="Título">
-                Conteúdo
-                <div class="row">
-                    <div class="col-md-4">
-                        <panel-component color="blue" title="Título 1">
-                            Conteúdo 
-                        </panel-component>
-                    </div>
-                    <div class="col-md-4">
-                        <panel-component color="warning" title="Título 2">
-                            Conteúdo 
-                        </panel-component>
-                    </div>
-                    <div class="col-md-4">
-                        <panel-component color="orange" title="Título 3">
-                            Conteúdo 
-                        </panel-component>
-                    </div>
-                </div>
-            </panel-component> 
+<page-component size="10">
+    <panel-component color="panel-default" title="Título">
+        Conteúdo
+        <div class="row">
+            <div class="col-md-4">
+                <box-component amount="80" title="Artigos" url="{{ route('articles.index') }}" color="orange" icon="ion ion-pie-graph">
+                    Conteúdo 
+                </box-component>
+            </div>
+            <div class="col-md-4">
+                <box-component amount="3" title="Usuários" url="http://google.com" color="blue" icon="ion ion-person-stalker">
+                    Conteúdo 
+                </box-component>
+            </div>
+            <div class="col-md-4">
+                <box-component amount="149" title="Autores" url="http://google.com" color="red" icon="ion ion-person">
+                    Conteúdo 
+                </box-component>
+            </div>
         </div>
-    </div>
-</div>
+</panel-component> 
 @endsection

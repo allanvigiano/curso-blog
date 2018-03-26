@@ -33,9 +33,9 @@
 </template>
 
 <script>
-    export default {
-        props:['title', 'url']
-    }
+export default {
+  props: ["title", "url"]
+};
 </script>
 
 <style scoped>
