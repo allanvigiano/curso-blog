@@ -11,31 +11,31 @@
 </template>
 
 <script>
-    export default {
-        props: ['title', 'color'],
-        computed: {
-            defineColor: function () {
-                return 'panel '  + (this.color || 'primary');
-            }
-        }
+export default {
+  props: ["title", "color"],
+  computed: {
+    defineColor: function() {
+      return "panel " + (this.color || "panel-default");
     }
+  }
+};
 </script>
 
 <style scoped>
 .blue {
-    border-color: #0d4a96;
+  border-color: #0d4a96;
 }
 .blue > .panel-heading {
-    color: #f7f7f7;
-    background-color: #0d4a96;
-    border-color: #0d4a96;
+  color: #f7f7f7;
+  background-color: #0d4a96;
+  border-color: #0d4a96;
 }
 .orange {
-    border-color: #e84e0d;
+  border-color: #e84e0d;
 }
 .orange > .panel-heading {
-    color: #f7f7f7;
-    background-color: #e84e0d;
-    border-color: #e84e0d;
+  color: #f7f7f7;
+  background-color: #e84e0d;
+  border-color: #e84e0d;
 }
 </style>
