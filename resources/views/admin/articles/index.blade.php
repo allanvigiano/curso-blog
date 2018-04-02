@@ -6,16 +6,18 @@
         <table-list-component 
             :headers="[{name: '#', id: 1}, {name: 'Título', id: 2}, {name: 'Descrição', id: 3}]"
             :items="[
-                [1, 'PHP1', 'Curso de PHP'],
-                [2, 'PHP2', 'Curso de PHP'],
-                [3, 'js', 'Curso de PHP'],
-                [4, 'laravel', 'Curso de PHP'],
+                [1, 'aPHP1', 'dCurso de PHP'],
+                [2, 'bPHP2', 'aCurso de PHP'],
+                [3, 'cjs', 'bCurso de PHP'],
+                [4, 'dlaravel', 'cCurso de PHP'],
             ]"
             detail="link"
             token="asdf asd"
             create="link"
             edit="link"
             delete-url="link"
+            order="asc"
+            col="1"
 
         >
 

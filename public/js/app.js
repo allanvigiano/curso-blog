@@ -44381,7 +44381,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -44392,6 +44392,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _this = this;
+
+//
 //
 //
 //
@@ -44435,27 +44438,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      search: ""
+      search: "",
+      orderAux: _this.order || "asc",
+      orderAuxCol: _this.col || 1,
+      clickedHeader: {
+        id: _this.col || 1,
+        order: _this.order || "asc"
+      }
     };
   },
-  props: ["headers", "items", "detail", "token", "edit", "deleteUrl", "create"],
+  props: ["headers", "items", "detail", "token", "edit", "deleteUrl", "create", "order", // (asc/desc) ascendent or descent sort
+  "col" // (number) column index witch will be sorted
+  ],
   methods: {
     execForm: function execForm(index) {
       document.getElementById(index).submit();
+    },
+    sortCol: function sortCol(header) {
+      if (header.order == 'asc' && this.clickedHeader.id == header.id) {
+        header.order = 'desc';
+      } else {
+        header.order = 'asc';
+      }
+      //this.clickedHeader = header.id;
+      this.clickedHeader.id = header.id;
+      this.clickedHeader.order = header.order;
+      console.log(this.orderAux);
     }
   },
   computed: {
     filtredList: function filtredList() {
-      var _this = this;
+      var _this2 = this;
+
+      // let order = this.orderAux.toString().toLowerCase();
+      var order = this.clickedHeader.order;
+      // let col = parseInt(this.orderAuxCol);
+      var col = parseInt(this.clickedHeader.id) - 1;
+
+      if (order == "asc") {
+        this.items.sort(function (a, b) {
+          console.log(a[col] + ' asc- ' + b[col]);
+          return a[col] == b[col] ? 0 : a[col] > b[col] ? 1 : -1;
+        });
+      } else {
+        this.items.sort(function (a, b) {
+          console.log(a[col] + ' desc- ' + b[col]);
+          return a[col] == b[col] ? 0 : a[col] < b[col] ? 1 : -1;
+        });
+      }
 
       return this.items.filter(function (res) {
         for (var k = 0; k < res.length; k++) {
-          if (res[k].toString().toLowerCase().indexOf(_this.search.toString().toLowerCase()) >= 0) {
+          if (res[k].toString().toLowerCase().indexOf(_this2.search.toString().toLowerCase()) >= 0) {
             return true;
-          } else {
-            return false;
-          }
+          } else {}
         }
+        return false;
       });
       return this.items;
     }
@@ -44513,10 +44551,17 @@ var render = function() {
           [
             _vm._l(_vm.headers, function(header) {
               return _c("th", { key: header.id }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(header.name) +
-                    "\n                "
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "javascript:void(0);" },
+                    on: {
+                      click: function($event) {
+                        _vm.sortCol(header)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(header.name))]
                 )
               ])
             }),

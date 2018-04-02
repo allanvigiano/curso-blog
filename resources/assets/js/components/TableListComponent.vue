@@ -10,8 +10,9 @@
         <table class="table table-striped table-hover">
             <thead> 
                 <tr>
-                    <th v-for="header in headers" :key="header.id">
-                        {{ header.name }}
+                    <th v-for="(header) in headers" :key="header.id">
+                        <a href="javascript:void(0);" v-on:click="sortCol(header)">{{ header.name }}</a>
+                        <!-- <span :style="orderAuxCol == header.id ? 'visibility:visible;' : 'visibility:hidden;'" :class="header.order == 'desc' ? 'ion-android-arrow-dropdown' : 'ion-android-arrow-dropup'"  aria-hidden="true"></span> -->
                     </th>
                     <th v-if="detail || edit || deleteUrl">Ação</th>
                 </tr>
@@ -39,19 +40,62 @@
 
 <script>
 export default {
-  data: function() {
+  data:() => {
     return {
-      search: ""
+      search: "", 
+      orderAux: this.order || "asc",
+      orderAuxCol: this.col || 1,
+      clickedHeader: {
+        id: this.col || 1,
+        order: this.order || "asc",
+      }
     };
   },
-  props: ["headers", "items", "detail", "token", "edit", "deleteUrl", "create"],
+  props: [
+    "headers",
+    "items",
+    "detail",
+    "token",
+    "edit",
+    "deleteUrl",
+    "create",
+    "order",     // (asc/desc) ascendent or descent sort
+    "col"        // (number) column index witch will be sorted
+  ],
   methods: {
-    execForm: function(index) {
+    execForm: index => {
       document.getElementById(index).submit();
+    },
+    sortCol: function(header) {
+      if (header.order == 'asc' && this.clickedHeader.id == header.id) {
+        header.order = 'desc';
+      }
+      else {
+        header.order = 'asc'
+      }
+      //this.clickedHeader = header.id;
+      this.clickedHeader.id = header.id;
+      this.clickedHeader.order = header.order;
+      console.log(this.orderAux);
     }
   },
   computed: {
     filtredList: function() {
+      // let order = this.orderAux.toString().toLowerCase();
+      let order = this.clickedHeader.order;
+      // let col = parseInt(this.orderAuxCol);
+      let col = parseInt(this.clickedHeader.id) - 1;
+
+      if (order == "asc") {
+        this.items.sort((a, b) => { console.log(a[col] + ' asc- ' + b[col])
+          return a[col] == b[col] ? 0 : a[col] > b[col] ? 1 : -1;
+        });
+      } else {
+        this.items.sort((a, b) => {console.log(a[col] + ' desc- ' + b[col])
+          return a[col] == b[col] ? 0 : a[col] < b[col] ? 1 : -1;
+        });
+      }
+
       return this.items.filter(res => {
         for (let k = 0; k < res.length; k++) {
           if (
@@ -62,9 +106,10 @@ export default {
           ) {
             return true;
           } else {
-            return false;
+            
           }
         }
+        return false;
       });
       return this.items;
     }
