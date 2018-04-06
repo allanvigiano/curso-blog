@@ -21,7 +21,10 @@ Vue.component('panel-component', require('./components/PanelComponent.vue'));
 Vue.component('box-component', require('./components/BoxComponent.vue'));
 Vue.component('page-component', require('./components/PageComponent.vue'));
 Vue.component('table-list-component', require('./components/TableListComponent.vue'));
-
+Vue.component('breadcrumb-component', require('./components/BreadcrumbComponent.vue'));
+Vue.component('modal-component', require('./components/modal/ModalComponent.vue'));
+Vue.component('modal-link-component', require('./components/modal/ModalLinkComponent.vue'));
+Vue.component('form-component', require('./components/FormComponent.vue'));
 const app = new Vue({
     el: '#app'
 });

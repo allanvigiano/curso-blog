@@ -3,7 +3,7 @@
 @section('content')
 <page-component size="10">
     <panel-component color="panel-default" title="Título">
-        Conteúdo
+        <breadcrumb-component :list='{{ $breadcrumbList }}'></breadcrumb-component>
         <div class="row">
             <div class="col-md-4">
                 <box-component amount="80" title="Artigos" url="{{ route('articles.index') }}" color="orange" icon="ion ion-pie-graph">

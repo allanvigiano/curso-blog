@@ -76,7 +76,6 @@ export default {
       //this.clickedHeader = header.id;
       this.clickedHeader.id = header.id;
       this.clickedHeader.order = header.order;
-      console.log(this.orderAux);
     }
   },
   computed: {
@@ -87,11 +86,11 @@ export default {
       let col = parseInt(this.clickedHeader.id) - 1;
 
       if (order == "asc") {
-        this.items.sort((a, b) => { console.log(a[col] + ' asc- ' + b[col])
+        this.items.sort((a, b) => {
           return a[col] == b[col] ? 0 : a[col] > b[col] ? 1 : -1;
         });
       } else {
-        this.items.sort((a, b) => {console.log(a[col] + ' desc- ' + b[col])
+        this.items.sort((a, b) => {
           return a[col] == b[col] ? 0 : a[col] < b[col] ? 1 : -1;
         });
       }
