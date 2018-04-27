@@ -13369,7 +13369,10 @@ Vue.component('modal-link-component', __webpack_require__(82));
 Vue.component('form-component', __webpack_require__(87));
 var app = new Vue({
   el: '#app',
-  store: __WEBPACK_IMPORTED_MODULE_1__store_js__["a" /* default */]
+  store: __WEBPACK_IMPORTED_MODULE_1__store_js__["a" /* default */],
+  mounted: function mounted() {
+    document.getElementById('app').style.display = "block";
+  }
 });
 
 /***/ }),
@@ -45379,7 +45382,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45392,6 +45395,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var _this = this;
 
+//
+//
+//
 //
 //
 //
@@ -45480,8 +45486,8 @@ var _this = this;
   "col", // (number) column index witch will be sorted
   "modal"],
   methods: {
-    execForm: function execForm(index) {
-      document.getElementById(index).submit();
+    execForm: function execForm(idForm) {
+      document.getElementById(idForm).submit();
     },
     sortCol: function sortCol(header) {
       if (header.order == "asc" && this.clickedHeader.id == header.id) {
@@ -45498,23 +45504,24 @@ var _this = this;
     filtredList: function filtredList() {
       var _this2 = this;
 
+      var list = this.items.data;
       // let order = this.orderAux.toString().toLowerCase();
       var order = this.clickedHeader.order;
       // let col = parseInt(this.orderAuxCol);
       var col = parseInt(this.clickedHeader.id) - 1;
 
       if (order == "asc") {
-        this.items.sort(function (a, b) {
+        list.sort(function (a, b) {
           return Object.values(a)[col] == Object.values(b)[col] ? 0 : Object.values(a)[col] > Object.values(b)[col] ? 1 : -1;
         });
       } else {
-        this.items.sort(function (a, b) {
+        list.sort(function (a, b) {
           return Object.values(a)[col] == Object.values(b)[col] ? 0 : Object.values(a)[col] < Object.values(b)[col] ? 1 : -1;
         });
       }
 
       if (this.search) {
-        return this.items.filter(function (res) {
+        return list.filter(function (res) {
           res = Object.values(res);
           for (var k = 0; k < res.length; k++) {
             if (res[k].toString().toLowerCase().indexOf(_this2.search.toString().toLowerCase()) >= 0) {
@@ -45525,7 +45532,7 @@ var _this = this;
         });
       }
 
-      return this.items;
+      return list;
     }
   }
 });
@@ -45647,7 +45654,8 @@ var render = function() {
                               type: "link",
                               "modal-name": "detail",
                               "css-class": "",
-                              item: item
+                              item: item,
+                              url: _vm.detail
                             }
                           })
                         : _vm._e(),
@@ -45659,6 +45667,7 @@ var render = function() {
                               type: "link",
                               "modal-name": "detail",
                               "css-class": "",
+                              url: _vm.detail,
                               item: item
                             }
                           })
@@ -45677,7 +45686,8 @@ var render = function() {
                               type: "link",
                               "modal-name": "edit",
                               "css-class": "",
-                              item: item
+                              item: item,
+                              url: _vm.detail
                             }
                           })
                         : _vm._e(),
@@ -45687,9 +45697,9 @@ var render = function() {
                             "form",
                             {
                               attrs: {
-                                action: _vm.deleteUrl,
+                                action: _vm.deleteUrl + item.id,
                                 method: "post",
-                                id: "form" + item[0]
+                                id: "formDelete" + item.id
                               }
                             },
                             [
@@ -45710,13 +45720,13 @@ var render = function() {
                                 ? _c(
                                     "a",
                                     {
-                                      attrs: {
-                                        href: _vm.deleteUrl,
-                                        onclick:
-                                          "execForm('form" + item[0] + ")"
+                                      on: {
+                                        click: function($event) {
+                                          _vm.execForm("formDelete" + item.id)
+                                        }
                                       }
                                     },
-                                    [_vm._v("Deletar")]
+                                    [_vm._v(" Excluir")]
                                   )
                                 : _vm._e()
                             ]
@@ -46191,7 +46201,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -46203,6 +46213,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store__ = __webpack_require__(14);
+var _this = this;
+
 //
 //
 //
@@ -46235,10 +46247,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["type", "modalName", "title", "cssClass", "item"],
+  props: ["type", "modalName", "title", "cssClass", "item", "url"],
   methods: {
-    fillForm: function fillForm(item) {
-      __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */].commit('setItem', item);
+    fillForm: function fillForm(item, url) {
+      var vm = _this;
+      console.log(vm.url);
+      axios.get(url + item.id).then(function (res) {
+        __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */].commit('setItem', res.data);
+      });
     }
   }
 });
@@ -46264,7 +46280,11 @@ var render = function() {
                     "data-toggle": "modal",
                     "data-target": "#" + _vm.modalName
                   },
-                  on: { click: _vm.fillForm }
+                  on: {
+                    click: function($event) {
+                      _vm.fillForm(_vm.item, _vm.url)
+                    }
+                  }
                 },
                 [_vm._v("\n            " + _vm._s(_vm.title) + "\n        ")]
               )
@@ -46282,7 +46302,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      _vm.fillForm(_vm.item)
+                      _vm.fillForm(_vm.item, _vm.url)
                     }
                   }
                 },
@@ -46487,7 +46507,7 @@ var render = function() {
           })
         : _vm._e(),
       _vm._v(" "),
-      _vm.method != "get"
+      _vm.method != "get" && _vm.method != "post"
         ? _c("input", {
             attrs: { type: "hidden", name: "_method" },
             domProps: { value: _vm.method }

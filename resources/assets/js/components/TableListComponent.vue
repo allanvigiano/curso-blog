@@ -37,6 +37,7 @@
                             modal-name="detail"
                             css-class=""
                             :item="item"
+                            :url="detail"
                         ></modal-link-component>
                         <modal-link-component
                             v-if="create && !modal"
@@ -44,6 +45,7 @@
                             type="link"
                             modal-name="detail"
                             css-class=""
+                            :url="detail"
                             :item="item"
                         ></modal-link-component>
 
@@ -55,11 +57,12 @@
                             modal-name="edit"
                             css-class=""
                             :item="item"
+                            :url="detail"
                         ></modal-link-component>
-                        <form v-if="deleteUrl && token" :action="deleteUrl" method="post" :id="'form'+item[0]">
+                        <form v-if="deleteUrl && token" :action="deleteUrl + item.id" method="post" :id="'formDelete'+item.id">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" :value="token">
-                            <a v-if="deleteUrl" :href="deleteUrl" :onclick="'execForm(\'form'+item[0]+')'">Deletar</a>
+                            <a v-if="deleteUrl" @click="execForm('formDelete' + item.id)"> Excluir</a>
                         </form>
                         
                     </td>
@@ -95,8 +98,8 @@ export default {
     "modal"
   ],
   methods: {
-    execForm: index => {
-      document.getElementById(index).submit();
+    execForm: idForm => {
+      document.getElementById(idForm).submit();
     },
     sortCol: function(header) {
       if (header.order == "asc" && this.clickedHeader.id == header.id) {
@@ -111,19 +114,20 @@ export default {
   },
   computed: {
     filtredList: function() {
+      let list = this.items.data;
       // let order = this.orderAux.toString().toLowerCase();
       let order = this.clickedHeader.order;
       // let col = parseInt(this.orderAuxCol);
       let col = parseInt(this.clickedHeader.id) - 1;
 
       if (order == "asc") {
-        this.items.sort((a, b) => {
+        list.sort((a, b) => {
           return Object.values(a)[col] == Object.values(b)[col]
             ? 0
             : Object.values(a)[col] > Object.values(b)[col] ? 1 : -1;
         });
       } else {
-        this.items.sort((a, b) => {
+        list.sort((a, b) => {
           return Object.values(a)[col] == Object.values(b)[col]
             ? 0
             : Object.values(a)[col] < Object.values(b)[col] ? 1 : -1;
@@ -131,7 +135,7 @@ export default {
       }
 
       if (this.search) {
-        return this.items.filter(res => {
+        return list.filter(res => {
           res =  Object.values(res);
           for (let k = 0; k < res.length; k++) {
             if (
@@ -148,7 +152,7 @@ export default {
         });
       }
 
-      return this.items;
+      return list;
     }
   }
 };

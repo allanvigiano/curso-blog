@@ -11,12 +11,12 @@
                 </box-component>
             </div>
             <div class="col-md-4">
-                <box-component amount="3" title="Usuários" url="http://google.com" color="blue" icon="ion ion-person-stalker">
+                <box-component amount="3" title="Usuários" url="{{ route('users.index') }}" color="blue" icon="ion ion-person-stalker">
                     Conteúdo 
                 </box-component>
             </div>
             <div class="col-md-4">
-                <box-component amount="149" title="Autores" url="http://google.com" color="red" icon="ion ion-person">
+                <box-component amount="149" title="Autores" url="{{ route('authors.index') }}" color="red" icon="ion ion-person">
                     Conteúdo 
                 </box-component>
             </div>

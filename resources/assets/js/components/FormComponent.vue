@@ -1,7 +1,7 @@
 <template>
     <form :action="action" :method="method === 'get' ? 'get' : 'post'" :enctype="enctype" :class="cssClass" :id="formId">
         <input v-if="defineMethod" type="hidden" name="_token" :value="token">
-        <input v-if="method != 'get'" type="hidden" name="_method" :value="method">
+        <input v-if="method != 'get' && method != 'post'" type="hidden" name="_method" :value="method">
         <slot></slot>
     </form>
 </template>

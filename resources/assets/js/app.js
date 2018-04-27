@@ -28,5 +28,8 @@ Vue.component('modal-link-component', require('./components/modal/ModalLinkCompo
 Vue.component('form-component', require('./components/FormComponent.vue'));
 const app = new Vue({
     el: '#app',
-    store
+    store,
+    mounted: () => {
+        document.getElementById('app').style.display = "block";
+    }
 });
