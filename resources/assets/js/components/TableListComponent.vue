@@ -1,7 +1,13 @@
 <template>
     <div>
         <div class="form-inline">
-            <a v-if="create" :href="create">Criar</a>
+            <a v-if="create && !modal" :href="create">Criar link</a>
+            <modal-link-component
+                v-if="create && modal"
+                title="Criar Modal"
+                modal-name="add"
+                css-class="btn btn-large btn-danger"
+            ></modal-link-component>
             <div class="pull-right">
                 <input v-model="search" type="search" name="list_search" id="" class="form-control" placeholder="Buscar">
             </div>
@@ -23,8 +29,33 @@
                         {{ element }}
                     </td>
                     <td v-if="detail || edit || deleteUrl">
-                        <a v-if="detail" href="">Detalhe</a>
-                        <a v-if="edit" href="">Editar</a>
+                        
+                        <modal-link-component
+                            v-if="create && modal"
+                            title="Detalhe"
+                            type="link"
+                            modal-name="detail"
+                            css-class=""
+                            :item="item"
+                        ></modal-link-component>
+                        <modal-link-component
+                            v-if="create && !modal"
+                            title="Detalhe"
+                            type="link"
+                            modal-name="detail"
+                            css-class=""
+                            :item="item"
+                        ></modal-link-component>
+
+                        <a v-if="create && !modal" :href="edit">Editar</a>
+                        <modal-link-component
+                            v-if="create && modal"
+                            title="Editar"
+                            type="link"
+                            modal-name="edit"
+                            css-class=""
+                            :item="item"
+                        ></modal-link-component>
                         <form v-if="deleteUrl && token" :action="deleteUrl" method="post" :id="'form'+item[0]">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" :value="token">
@@ -40,14 +71,14 @@
 
 <script>
 export default {
-  data:() => {
+  data: () => {
     return {
-      search: "", 
+      search: "",
       orderAux: this.order || "asc",
       orderAuxCol: this.col || 1,
       clickedHeader: {
         id: this.col || 1,
-        order: this.order || "asc",
+        order: this.order || "asc"
       }
     };
   },
@@ -59,19 +90,19 @@ export default {
     "edit",
     "deleteUrl",
     "create",
-    "order",     // (asc/desc) ascendent or descent sort
-    "col"        // (number) column index witch will be sorted
+    "order", // (asc/desc) ascendent or descent sort
+    "col", // (number) column index witch will be sorted
+    "modal"
   ],
   methods: {
     execForm: index => {
       document.getElementById(index).submit();
     },
     sortCol: function(header) {
-      if (header.order == 'asc' && this.clickedHeader.id == header.id) {
-        header.order = 'desc';
-      }
-      else {
-        header.order = 'asc'
+      if (header.order == "asc" && this.clickedHeader.id == header.id) {
+        header.order = "desc";
+      } else {
+        header.order = "asc";
       }
       //this.clickedHeader = header.id;
       this.clickedHeader.id = header.id;
@@ -87,29 +118,36 @@ export default {
 
       if (order == "asc") {
         this.items.sort((a, b) => {
-          return a[col] == b[col] ? 0 : a[col] > b[col] ? 1 : -1;
+          return Object.values(a)[col] == Object.values(b)[col]
+            ? 0
+            : Object.values(a)[col] > Object.values(b)[col] ? 1 : -1;
         });
       } else {
         this.items.sort((a, b) => {
-          return a[col] == b[col] ? 0 : a[col] < b[col] ? 1 : -1;
+          return Object.values(a)[col] == Object.values(b)[col]
+            ? 0
+            : Object.values(a)[col] < Object.values(b)[col] ? 1 : -1;
         });
       }
 
-      return this.items.filter(res => {
-        for (let k = 0; k < res.length; k++) {
-          if (
-            res[k]
-              .toString()
-              .toLowerCase()
-              .indexOf(this.search.toString().toLowerCase()) >= 0
-          ) {
-            return true;
-          } else {
-            
+      if (this.search) {
+        return this.items.filter(res => {
+          res =  Object.values(res);
+          for (let k = 0; k < res.length; k++) {
+            if (
+              res[k]
+                .toString()
+                .toLowerCase()
+                .indexOf(this.search.toString().toLowerCase()) >= 0
+            ) {
+              return true;
+            } else {
+            }
           }
-        }
-        return false;
-      });
+          return false;
+        });
+      }
+
       return this.items;
     }
   }

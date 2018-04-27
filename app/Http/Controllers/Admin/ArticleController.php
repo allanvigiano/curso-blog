@@ -18,8 +18,18 @@ class ArticleController extends Controller
             ["title"=> "Home", "url"=> route("home")], 
             ["title"=> "Lista de Artigos", "url"=> ""], 
         ]);
+
+        $articleList = json_encode([
+            ["id" =>1, "title" => "PHP 00", "description" => "Curso de PHP"],
+            ["id" =>2, "title" => "PHP 01", "description" => "Curso de PHP"],
+            ["id" =>3, "title" => "PHP 02", "description" => "Curso de PHP"],
+        ]);
+
         // dd(($breadcrumbList));
-        return view('admin.articles.index', ["breadcrumbList"=> $breadcrumbList]);
+        return view('admin.articles.index', [
+            "breadcrumbList"=> $breadcrumbList,
+            "articleList"=> $articleList
+        ]);
     }
 
     /**

@@ -1,35 +1,31 @@
 <template>
-    <form :action="action" :method="defineMethod" :enctype="enctype" :class="cssClass">
-        <input v-if="token" type="hidden" name="_token" :value="token">
-        <input v-if="updateMethod" type="hidden" name="_method" value="defineMethod">
+    <form :action="action" :method="method === 'get' ? 'get' : 'post'" :enctype="enctype" :class="cssClass" :id="formId">
+        <input v-if="defineMethod" type="hidden" name="_token" :value="token">
+        <input v-if="method != 'get'" type="hidden" name="_method" :value="method">
         <slot></slot>
     </form>
 </template>
 
 <script>
 export default {
-  props: ["cssClass", "action", "method", "enctype", "token"],
+  props: ["css-class", "action", "method", "enctype", "token", "formId"],
   data: () => {
     return {
-      updateMethod: ""
+      updatedMethod: ""
     }
+  },
+  methods: {
+   
   },
   computed: {
     defineMethod: () => {
-      if(this.method == "post" || this.method == "get" )  {
-        return this.method;  
-      }
+      var vm = this;
+      var method = (vm.method + '').toLowerCase();
 
-      if(this.method == "put") {
-          this.updateMethod = "put";
-      }
-
-      if(this.method == "delete") {
-          this.updateMethod = "delete";
-      }
-
-      return 'post'
+      return method === 'get' ? 'get' : 'post';
     }
+  },
+  created: ()=> {
   }
 };
 </script>

@@ -27,6 +27,8 @@
                     return "col-md-" + (parseInt(this.size) + 1) + " col-md-offset-" + (12 - parseInt(this.size) +1) / 2;
                 }
             }
+        },
+        mounted: ()=> {
         }
     }
 </script>
