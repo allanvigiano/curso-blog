@@ -17,11 +17,11 @@ class AuthorController extends Controller
     public function index()
     {
         $breadcrumbList = json_encode([
-            ["title"=> "Home", "url"=> route("home")], 
+            ["title"=> "Admin", "url"=> route("admin")], 
             ["title"=> "Lista de Autores", "url"=> ""], 
         ]);
 
-        $modelList = User::select('id', 'name', 'email')->paginate(5);
+        $modelList = User::select('id', 'name', 'email')->where('author', '=', 'Y')->paginate(5);
 
         // dd(($breadcrumbList));
         return view('admin.authors.index', [

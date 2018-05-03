@@ -1,7 +1,7 @@
 <template>
 
     <div :class="defineColor">
-        <div class="panel-heading"> {{ title }}</div>
+        <div v-if="title" class="panel-heading"> {{ title }}</div>
 
         <div class="panel-body">
             <slot></slot>

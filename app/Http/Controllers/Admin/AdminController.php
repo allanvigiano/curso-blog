@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use App\Article;
+use App\User;
 
-class ArticleController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +18,15 @@ class ArticleController extends Controller
     {
         $breadcrumbList = json_encode([
             ["title"=> "Admin", "url"=> route("admin")], 
-            ["title"=> "Lista de Artigos", "url"=> ""], 
+            ["title"=> "Lista de Administadores", "url"=> ""], 
         ]);
 
-        $articleList = Article::listArticles(5);
+        $modelList = User::select('id', 'name', 'email')->where('admin', '=', 'Y')->paginate(5);
 
-        return view('admin.articles.index', [
+        // dd(($breadcrumbList));
+        return view('admin.admins.index', [
             "breadcrumbList"=> $breadcrumbList,
-            "articleList"=> $articleList
+            "modelList"=> $modelList
         ]);
     }
 
@@ -47,22 +49,21 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
+
         $validation = \Validator::make($data, [
-            'title' => 'required',
-            'description' => 'required',
-            'date_time' => 'required',
-            'content' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
         ]);
 
         if($validation->fails()) {
             return redirect()->back()->withErrors($validation)->withInput();
         }
         else {
-            Article::create($data);
+            $data['password'] = bcrypt($data['password']);
+            User::create($data);
             return redirect()->back();
         }
-        
     }
 
     /**
@@ -73,9 +74,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
-        $article->date_time = substr($article->date_time, 0, 10);
-        return $article;
+        return User::find($id);
     }
 
     /**
@@ -100,20 +99,32 @@ class ArticleController extends Controller
     {
         $data = $request->all();
 
-        $validation = \Validator::make($data, [
-            'title' => 'required',
-            'description' => 'required',
-            'date_time' => 'required',
-            'content' => 'required'
-        ]);
+        if (isset($data['password']) || $data['password'] != "") {
+
+            $validation = \Validator::make($data, [
+                'name' => 'required|string|max:255',
+                'email' => ['required','string','email','max:255', Rule::unique('users')->ignore($id)],
+                'password' => 'required|string|min:6',
+            ]);
+            $data['password'] = bcrypt($data['password']);
+        }
+        else {
+            $validation = \Validator::make($data, [
+                'name' => 'required|string|max:255',
+                'email' => ['required','string','email','max:255', Rule::unique('users')->ignore($id)],
+            ]);
+            unset($data['password']);
+        }
+
 
         if($validation->fails()) {
             return redirect()->back()->withErrors($validation)->withInput();
         }
         else {
-            Article::find($id)->update($data);
+            User::find($id)->update($data);
             return redirect()->back();
         }
+
     }
 
     /**
@@ -124,7 +135,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        Article::find($id)->delete();
+        User::find($id)->delete();
         return redirect()->back();
     }
 }

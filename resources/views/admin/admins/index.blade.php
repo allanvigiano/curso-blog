@@ -18,10 +18,10 @@
         <table-list-component 
             :headers="[{name: '#', id: 1}, {name: 'E-mail', id: 2}, {name: 'Nome', id: 3}]"
             :items="{{ json_encode($modelList) }}"
-            detail="/admin/authors/"
+            detail="/admin/admins/"
             token="{{csrf_token()}}"
             create="link"
-            edit="/admin/authors/"
+            edit="/admin/admins/"
             order="asc"
             col="1"
             :modal="true"
@@ -33,7 +33,7 @@
 </page-component>
 <modal-component modal-name="add" title="Adicionar">
     
-    <form-component css-class="" action="{{route('authors.store')}}" method="post" enctype="" token="{{csrf_token()}}" form-id="formAdd"> 
+    <form-component css-class="" action="{{route('admins.store')}}" method="post" enctype="" token="{{csrf_token()}}" form-id="formAdd"> 
         <div class="form-group">
             <label for="nome">Nome</label>
             <input type="text" class="form-control" id="nome" name="name" value="{{old('name')}}">
@@ -43,10 +43,10 @@
             <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
         </div>
         <div class="form-group">
-            <label for="descricao">Autor</label>
-            <select name="author" id="author" class="form-control" v-model="$store.state.item.author">
-                <option value="N" {{old('author') == 'N' ? 'selected' : ''}}>Não</option>
-                <option value="Y" {{old('author') == 'Y' || ! old('author') ? 'selected' : ''}}>Sim</option>
+            <label for="descricao">Administrador</label>
+            <select name="admin" id="admin" class="form-control" v-model="$store.state.item.admin">
+                <option value="N" {{old('admin') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('admin') == 'Y' || ! old('admin') ? 'selected' : ''}}>Sim</option>
             </select>
         </div>
         <div class="form-group">
@@ -61,7 +61,7 @@
 </modal-component>
 <modal-component modal-name="edit" title="Editar">
 
-    <form-component css-class="" :action="'/admin/authors/' + $store.state.item.id" method="put" enctype="teste" token="{{csrf_token()}}" form-id="formEdit"> 
+    <form-component css-class="" :action="'/admin/admins/' + $store.state.item.id" method="put" enctype="teste" token="{{csrf_token()}}" form-id="formEdit"> 
         <div class="form-group">
             <label for="nome">Nome</label>
             <input v-model="$store.state.item.name" type="text" class="form-control" id="nome" name="name">
@@ -72,9 +72,16 @@
         </div>
         <div class="form-group">
             <label for="descricao">Autor</label>
-            <select name="author" id="author" class="form-control" v-model="$store.state.item.author">
-                <option value="N" {{old('author') == 'N' ? 'selected' : ''}}>Não</option>
-                <option value="Y" {{old('author') == 'Y' ? 'selected' : ''}}>Sim</option>
+            <select name="admin" id="admin" class="form-control" v-model="$store.state.item.admin">
+                <option value="N" {{old('admin') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('admin') == 'Y' ? 'selected' : ''}}>Sim</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="descricao">Administrador</label>
+            <select name="admin" id="admin" class="form-control" v-model="$store.state.item.admin">
+                <option value="N" {{old('admin') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('admin') == 'Y' || ! old('admin') ? 'selected' : ''}}>Sim</option>
             </select>
         </div>
         <div class="form-group">

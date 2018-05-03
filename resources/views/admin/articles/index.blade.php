@@ -16,14 +16,14 @@
         <breadcrumb-component :list='{{ $breadcrumbList }}'></breadcrumb-component>
 
         <table-list-component 
-            :headers="[{name: '#', id: 1}, {name: 'Título', id: 2}, {name: 'Descrição', id: 3}, {name: 'Criação', id: 4}]"
+            :headers="[{name: '#', id: 1}, {name: 'Título', id: 2}, {name: 'Descrição', id: 3}, {name: 'Autor', id: 4}, {name: 'Criação', id: 5}]"
             :items="{{ json_encode($articleList) }}"
             detail="/admin/articles/"
             token="{{csrf_token()}}"
             create="link"
             edit="/admin/articles/"
             delete-url="/admin/articles/"
-            order="asc"
+            order="desc"
             col="1"
             :modal="true"
 
@@ -32,8 +32,9 @@
         <div class="text-center">{{ $articleList->links() }}</div>
     </panel-component>
 </page-component>
+
+<!-- Modal Add -->
 <modal-component modal-name="add" title="Adicionar">
-    
     <form-component css-class="" action="{{route('articles.store')}}" method="post" enctype="" token="{{csrf_token()}}" form-id="formAdd"> 
         <div class="form-group">
             <label for="titulo">Título</label>
@@ -45,11 +46,15 @@
         </div>
         <div class="form-group">
             <label for="criacao">Criação</label>
-            <input type="datetime-local" class="form-control" id="criacao" name="date_time" value="{{old('date_time')}}">
+            <input type="date" class="form-control" id="criacao" name="date_time" value="{{old('date_time')}}">
         </div>
         <div class="form-group">
-            <label for="conteudo">Conteúdo</label>
-            <textarea class="form-control" id="conteudo" name="content">{{old('content')}}</textarea>
+            <label for="addContent">Conteúdo</label>
+            <editor-component 
+                value="{{ old('content') }}"
+                name="content" 
+                id="addContent">
+            </editor-component>
         </div>
     </form-component>
     <span slot="buttons"> 
@@ -57,6 +62,8 @@
     </span>
 
 </modal-component>
+
+<!-- Modal Edit -->
 <modal-component modal-name="edit" title="Editar">
 
     <form-component css-class="" :action="'/admin/articles/' + $store.state.item.id" method="put" enctype="teste" token="{{csrf_token()}}" form-id="formEdit"> 
@@ -70,11 +77,15 @@
         </div>
         <div class="form-group">
             <label for="criacao">Criação</label>
-            <input type="datetime" class="form-control" id="criacao" name="date_time" v-model="$store.state.item.date_time">
+            <input type="date" class="form-control" id="criacao" name="date_time" v-model="$store.state.item.date_time">
         </div>
         <div class="form-group">
-            <label for="conteudo">Conteúdo</label>
-            <textarea v-model="$store.state.item.content" class="form-control" id="conteudo" name="content"></textarea>
+            <label for="editContent">Conteúdo</label>
+            <editor-component 
+                name="content" 
+                id="editContent"
+                :value="$store.state.item.content">
+            </editor-component>
         </div>
     </form-component>
     <span slot="buttons"> 

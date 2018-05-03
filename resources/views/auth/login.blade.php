@@ -61,6 +61,17 @@
                             </div>
                         </div>
                     </form>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <h4>Login para testes</h4>
+                    <p><strong>E-Mail Address: </strong> admin@mail.com</p>
+                    <p><strong>Password: </strong> secret</p>
                 </div>
             </div>
         </div>

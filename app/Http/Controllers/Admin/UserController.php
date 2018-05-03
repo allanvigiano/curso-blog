@@ -17,11 +17,11 @@ class UserController extends Controller
     public function index()
     {
         $breadcrumbList = json_encode([
-            ["title"=> "Home", "url"=> route("home")], 
+            ["title"=> "Admin", "url"=> route("admin")], 
             ["title"=> "Lista de Usuário", "url"=> ""], 
         ]);
 
-        $modelList = User::select('id', 'name', 'email')->paginate(2);
+        $modelList = User::select('id', 'name', 'email')->paginate(5);
 
         // dd(($breadcrumbList));
         return view('admin.users.index', [

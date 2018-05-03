@@ -26,7 +26,7 @@
             <tbody>
                 <tr v-for="(item, i) in filtredList" :key="i">
                     <td v-for="element in item" :key="element + i">
-                        {{ element }}
+                        {{ element | formateDate}}
                     </td>
                     <td v-if="detail || edit || deleteUrl">
                         
@@ -110,6 +110,22 @@ export default {
       //this.clickedHeader = header.id;
       this.clickedHeader.id = header.id;
       this.clickedHeader.order = header.order;
+    }
+  },
+  filters: {
+    formateDate: value => {
+      value = value.toString();
+      if(!value) {
+        return ''
+      }
+      if(value.split('-').length == 3) {
+        
+        let array = value.split('-')
+
+        return array[2] + '/' + array[1] + '/' + array[0]
+      }
+      
+      return value
     }
   },
   computed: {

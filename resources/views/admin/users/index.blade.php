@@ -44,6 +44,20 @@
             <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
         </div>
         <div class="form-group">
+            <label for="descricao">Autor</label>
+            <select name="author" id="author" class="form-control">
+                <option value="N" {{old('author') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('author') == 'Y' ? 'selected' : ''}}>Sim</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="descricao">Administrador</label>
+            <select name="admin" id="admin" class="form-control">
+                <option value="N" {{old('admin') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('admin') == 'Y' ? 'selected' : ''}}>Sim</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="password">Senha</label>
             <input type="password" class="form-control" id="password" name="password" value="{{old('password')}}">
         </div>
@@ -63,6 +77,20 @@
         <div class="form-group">
             <label for="descricao">E-mail</label>
             <input v-model="$store.state.item.email" type="text" class="form-control" id="email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="descricao">Autor</label>
+            <select name="author" id="author" class="form-control" v-model="$store.state.item.author">
+                <option value="N" {{old('author') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('author') == 'Y' ? 'selected' : ''}}>Sim</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="admin">Administrador</label>
+            <select name="admin" id="admin" class="form-control" v-model="$store.state.item.admin">
+                <option value="N" {{old('admin') == 'N' ? 'selected' : ''}}>Não</option>
+                <option value="Y" {{old('admin') == 'Y' ? 'selected' : ''}}>Sim</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="password">Nova Senha</label>
